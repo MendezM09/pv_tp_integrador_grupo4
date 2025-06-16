@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import {Box, Typography, CircularProgress, Container, Paper, Button} from '@mui/material';
+import { Box, Typography, CircularProgress, Container, Paper, Tooltip } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import Checkbox from '@mui/material/Checkbox';
+
 function ProductDetail() {
-  const { id } = useParams(); 
+  const { id } = useParams();
   const { entities } = useSelector((state) => state.products);
   const [product, setProduct] = useState(null);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const foundProduct = entities.find((p) => p.id === parseInt(id));
@@ -26,7 +29,16 @@ function ProductDetail() {
 
   return (
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4 }}>
+      <Paper elevation={3} sx={{ p: 4, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4  ,position: 'relative'}}>
+        <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
+          <Tooltip title={"Salir"}>
+            <Checkbox
+              icon={<ArrowBackIcon />}
+              onClick={() => navigate('/')}
+              aria-label="Salir"
+            />
+          </Tooltip>
+        </Box>
         <Box sx={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
           <img
             src={product.image}
@@ -47,16 +59,13 @@ function ProductDetail() {
           <Typography variant="body1" paragraph>
             <strong>Categoria:</strong> {product.category}
           </Typography>
-           <Typography variant="body1" paragraph>
+          <Typography variant="body1" paragraph>
             <strong>Cantidad de Opiniones</strong> {product.rating.count}
             <strong> Valoracion:</strong> {product.rating.rate}
-           </Typography>
+          </Typography>
           <Typography variant="h5" color="primary" sx={{ mt: 3, fontWeight: 'bold' }}>
             ${product.price}
           </Typography>
-          <Button variant="outlined" sx={{ mt: 3 }} onClick={() => navigate('/')}>
-            Volver a la Lista de Productos
-          </Button>
         </Box>
       </Paper>
     </Container>

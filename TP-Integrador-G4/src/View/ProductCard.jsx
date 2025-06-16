@@ -13,6 +13,8 @@ import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import { addFavorite, removeFavorite } from '../store/favoritesSlice.jsx';
 
+import Tooltip from '@mui/material/Tooltip';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 function ProductCard() {
   const { entities } = useSelector((state) => state.products);
@@ -26,9 +28,9 @@ function ProductCard() {
 
   const handleToggleFavorite = (productId) => {
     if (favorites.includes(productId)) {
-      dispatch(removeFavorite(productId)); 
+      dispatch(removeFavorite(productId));
     } else {
-      dispatch(addFavorite(productId)); 
+      dispatch(addFavorite(productId));
     }
   };
 
@@ -39,15 +41,16 @@ function ProductCard() {
         flexWrap: 'wrap',
         gap: 3,
         justifyContent: 'center',
-        padding: 3,
+        py: 8,
+        px: 4,
       }}
     >
       {entities.map((product) => (
         <Card
           key={product.id}
           sx={{
-            maxWidth: 345,
-            minWidth: 280,
+            width: 220,
+            height: 420,
             display: 'flex',
             flexDirection: 'column',
             boxShadow: 3,
@@ -59,7 +62,7 @@ function ProductCard() {
         >
           <CardMedia
             component="img"
-            height="300"
+            height="200"
             image={product.image}
             alt={product.title}
             sx={{ objectFit: 'cover' }}
@@ -77,20 +80,23 @@ function ProductCard() {
           </CardContent>
 
           <CardActions sx={{ justifyContent: 'space-between', padding: 2 }}>
-            <Checkbox
-              icon={<FavoriteBorder />}
-              checkedIcon={<Favorite sx={{ color: 'red' }} />}
-              checked={favorites.includes(product.id)}
-              onChange={() => handleToggleFavorite(product.id)}
-              aria-label="Añadir a favoritos"
-            />
-            <Button
-              size="small"
-              variant="contained"
-              onClick={() => handleViewDetails(product.id)}
-            >
-              Ver Detalles
-            </Button>
+            <Tooltip
+              title={favorites.includes(product.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
+              arrow>
+              <Checkbox
+                icon={<FavoriteBorder />}
+                checkedIcon={<Favorite sx={{ color: 'red' }} />}
+                checked={favorites.includes(product.id)}
+                onChange={() => handleToggleFavorite(product.id)}
+                aria-label="Añadir a favoritos"
+              />
+            </Tooltip>
+            <Tooltip title="Ver Detalles">
+              <Checkbox
+                icon={<AssignmentIcon />}
+                onChange={() => handleViewDetails(product.id)}
+              ></Checkbox>
+            </Tooltip>
           </CardActions>
         </Card>
       ))}
