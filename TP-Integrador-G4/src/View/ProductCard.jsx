@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
-import { addFavorite, removeFavorite } from '.././favoritesSlice.jsx';
+import { addFavorite, removeFavorite } from '../store/favoritesSlice.jsx';
 
 
 function ProductCard() {
