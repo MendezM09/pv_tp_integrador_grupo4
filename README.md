@@ -41,4 +41,8 @@
                 •	npm install react-router-dom
                 •	npm install react-router redux @reduxjs/tookit
                 •	npm install @mui/material @emotion/react @emotion/styled
-
+                •	npm install @fontsource/roboto 
+                •	npm install @mui/icons-material
+                •	npm run dev
+        A continuación aparece una ip para visualizar la aplicación en el navegador 
+            Ejemplo:   Local: http://localhost:5174/
