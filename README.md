@@ -39,7 +39,7 @@
         2. Instalar las diferentes dependencias
                 •	npm install
                 •	npm install react-router-dom
-                •	npm install react-router redux @reduxjs/tookit
+                •	npm install react-router redux @reduxjs/toolkit
                 •	npm install @mui/material @emotion/react @emotion/styled
                 •	npm install @fontsource/roboto 
                 •	npm install @mui/icons-material
