@@ -20,6 +20,9 @@ function NavBar() {
           <Button color="inherit" component={Link} to="/favorites">
             Favoritos
           </Button>
+          <Button color="inherit" component={Link} to="/agregarProducto">
+            Agregar producto
+          </Button>
         </Box>
       </Toolbar>
     </AppBar>
