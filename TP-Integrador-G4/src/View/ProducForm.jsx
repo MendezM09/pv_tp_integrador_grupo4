@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { Box, TextField, Button, Typography, Paper, Grid, Container } from '@mui/material';
+import { Box, TextField, Button, Typography, Paper, Grid, Container, Tooltip, IconButton } from '@mui/material';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import { createProduct, updateProduct } from '../store/productsSlice';
 
-import { createProduct, updateProduct } from '../store/productsSlice'; 
-
-function ProductForm({ initialProduct = null }) { 
+function ProductForm({ initialProduct = null }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  
+
   const [titulo, setTitulo] = useState('');
   const [precio, setPrecio] = useState('');
   const [descripcion, setDescripcion] = useState('');
@@ -20,7 +20,7 @@ function ProductForm({ initialProduct = null }) {
   useEffect(() => {
     if (initialProduct) {
       setTitulo(initialProduct.title || '');
-      setPrecio(initialProduct.price?.toString() || ''); 
+      setPrecio(initialProduct.price?.toString() || '');
       setDescripcion(initialProduct.description || '');
       setCategoria(initialProduct.category || '');
       setImage(initialProduct.image || '');
@@ -31,7 +31,7 @@ function ProductForm({ initialProduct = null }) {
       setCategoria('');
       setImage('');
     }
-  }, [initialProduct]); 
+  }, [initialProduct]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -40,15 +40,15 @@ function ProductForm({ initialProduct = null }) {
       return;
     }
 
-    const productData = { 
-      id: parseInt(id), 
+    const productData = {
+      id: parseInt(id),
       title: titulo,
       price: parseFloat(precio),
       description: descripcion,
       category: categoria,
       image: imagen,
       rating: {
-        rate: 0, 
+        rate: 0,
         count: 0,
       },
     };
@@ -70,7 +70,7 @@ function ProductForm({ initialProduct = null }) {
 
       if (actionType.match(resultAction)) {
         alert(successMessage);
-        navigate('/'); 
+        navigate('/');
       } else {
         const errorMessage = resultAction.payload || resultAction.error?.message || 'Error desconocido';
         alert(`Error al guardar/actualizar el producto: ${errorMessage}`);
@@ -80,21 +80,28 @@ function ProductForm({ initialProduct = null }) {
     }
 
     if (!initialProduct) {
-        setId('');
-        setTitulo('');
-        setPrecio('');
-        setDescripcion('');
-        setCategoria('');
-        setImage('');
+      setId('');
+      setTitulo('');
+      setPrecio('');
+      setDescripcion('');
+      setCategoria('');
+      setImage('');
     }
   };
 
   return (
     <Container maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
-      <Paper elevation={3} sx={{ p: 4 }}>
+      <Paper elevation={3} sx={{ p: 4, position: 'relative' }}>
         <Typography variant="h5" component="h2" gutterBottom align="center">
           {initialProduct ? 'Editar Producto' : 'Agregar Nuevo Producto'}
         </Typography>
+        <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
+          <Tooltip title={"Salir"}>
+            <IconButton aria-label="salir" onClick={() => navigate('/')}>
+              <ArrowBackIcon />
+            </IconButton>
+          </Tooltip>
+        </Box>
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
           <Grid container spacing={2}>
             <Grid grid={{ xs: 12 }}>
