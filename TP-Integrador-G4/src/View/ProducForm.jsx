@@ -102,9 +102,21 @@ function ProductForm({ initialProduct = null }) {
             </IconButton>
           </Tooltip>
         </Box>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
-          <Grid container spacing={2}>
-            <Grid grid={{ xs: 12 }}>
+        <Box component="form" onSubmit={handleSubmit} sx={{
+          mt: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 4,
+          maxWidth: 900,
+          margin: 'auto',
+          padding: 4,
+          border: '1px solid #ccc',
+          borderRadius: 2,
+          boxShadow: 3,
+        }}>
+          <Grid container spacing={2}  justifyContent="center">
+            <Grid item xs={12} >
               <TextField
                 fullWidth
                 label="Título"
@@ -113,9 +125,10 @@ function ProductForm({ initialProduct = null }) {
                 onChange={(e) => setTitulo(e.target.value)}
                 required
                 margin="normal"
+                align="center"
               />
             </Grid>
-            <Grid grid={{ xs: 12 }}>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
                 label="Precio"
@@ -127,7 +140,7 @@ function ProductForm({ initialProduct = null }) {
                 margin="normal"
               />
             </Grid>
-            <Grid grid={{ xs: 12 }}>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
                 label="Descripción"
@@ -139,7 +152,7 @@ function ProductForm({ initialProduct = null }) {
                 margin="normal"
               />
             </Grid>
-            <Grid grid={{ xs: 12 }}>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
                 label="Categoría"
@@ -150,7 +163,7 @@ function ProductForm({ initialProduct = null }) {
                 margin="normal"
               />
             </Grid>
-            <Grid grid={{ xs: 12 }}>
+            <Grid item xs={12}>
               <TextField
                 fullWidth
                 label="URL de la Imagen"
@@ -161,19 +174,19 @@ function ProductForm({ initialProduct = null }) {
                 margin="normal"
               />
             </Grid>
-            <Grid grid={{ xs: 12 }}>
-              <Button
-                type="submit"
-                variant="contained"
-                color="primary"
-                fullWidth
-                sx={{ mt: 2 }}
-              >
-                {initialProduct ? 'Guardar Cambios' : 'Agregar Producto'}
-              </Button>
+            <Grid item xs={12}>
             </Grid>
           </Grid>
         </Box>
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          fullWidth
+          sx={{ mt: 2 }}
+        >
+          {initialProduct ? 'Guardar Cambios' : 'Agregar Producto'}
+        </Button>
       </Paper>
     </Container>
   );
