@@ -24,7 +24,7 @@ function EditProductFormWrapper() {
     );
   }
 
-  return <ProductForm initialProduct={productToEdit} />;
+  return <ProductForm  key={id} initialProduct={productToEdit} />;
 }
 function App() {
     const dispatch = useDispatch();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { Box, TextField, Button, Typography, Paper, Grid, Container, Tooltip, IconButton } from '@mui/material';
@@ -9,8 +9,8 @@ import { createProduct, updateProduct } from '../store/productsSlice';
 function ProductForm({ initialProduct = null }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-
+  const products = useSelector((state) => state.products.entities);
+  const [id, setId] = useState('');
   const [titulo, setTitulo] = useState('');
   const [precio, setPrecio] = useState('');
   const [descripcion, setDescripcion] = useState('');
@@ -19,12 +19,14 @@ function ProductForm({ initialProduct = null }) {
 
   useEffect(() => {
     if (initialProduct) {
+      setId(initialProduct.id?.toString() || '');
       setTitulo(initialProduct.title || '');
       setPrecio(initialProduct.price?.toString() || '');
       setDescripcion(initialProduct.description || '');
       setCategoria(initialProduct.category || '');
       setImage(initialProduct.image || '');
     } else {
+      setId('');
       setTitulo('');
       setPrecio('');
       setDescripcion('');
@@ -35,13 +37,37 @@ function ProductForm({ initialProduct = null }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!titulo || !precio || !descripcion || !categoria || !imagen) {
-      alert('Por favor, completa todos los campos.');
-      return;
+
+    if (
+      !titulo.trim() ||
+      !precio ||
+      isNaN(precio) ||
+      Number(precio) <= 0 ||
+      !descripcion.trim() ||
+      !categoria.trim() ||
+      !imagen.trim()
+    ) {
+      if (!precio || isNaN(precio)) {
+        alert('El precio debe ser un número válido.');
+        return;
+      }
+
+      if (Number(precio) <= 0) {
+        alert('El precio debe ser mayor a 0.');
+        return;
+      }
+    }
+
+    // Generación del nuevo ID si es producto nuevo
+    let newId = null;
+    if (!initialProduct) {
+      const ids = products.map(p => Number(p.id)).filter(id => !isNaN(id));
+      const maxId = ids.length > 0 ? Math.max(...ids) : 0;
+      newId = maxId + 1;
     }
 
     const productData = {
-      id: parseInt(id),
+      id: initialProduct?.id ?? newId,
       title: titulo,
       price: parseFloat(precio),
       description: descripcion,
@@ -52,7 +78,6 @@ function ProductForm({ initialProduct = null }) {
         count: 0,
       },
     };
-
     try {
       let resultAction;
       let successMessage;
@@ -80,7 +105,6 @@ function ProductForm({ initialProduct = null }) {
     }
 
     if (!initialProduct) {
-      setId('');
       setTitulo('');
       setPrecio('');
       setDescripcion('');
@@ -96,7 +120,7 @@ function ProductForm({ initialProduct = null }) {
           {initialProduct ? 'Editar Producto' : 'Agregar Nuevo Producto'}
         </Typography>
         <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
-          <Tooltip title={"Salir"}>
+          <Tooltip title="Salir">
             <IconButton aria-label="salir" onClick={() => navigate('/')}>
               <ArrowBackIcon />
             </IconButton>
@@ -115,8 +139,8 @@ function ProductForm({ initialProduct = null }) {
           borderRadius: 2,
           boxShadow: 3,
         }}>
-          <Grid container spacing={2}  justifyContent="center">
-            <Grid item xs={12} >
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item xs={12}>
               <TextField
                 fullWidth
                 label="Título"
@@ -125,7 +149,6 @@ function ProductForm({ initialProduct = null }) {
                 onChange={(e) => setTitulo(e.target.value)}
                 required
                 margin="normal"
-                align="center"
               />
             </Grid>
             <Grid item xs={12}>
@@ -174,19 +197,18 @@ function ProductForm({ initialProduct = null }) {
                 margin="normal"
               />
             </Grid>
-            <Grid item xs={12}>
-            </Grid>
           </Grid>
+
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2 }}
+          >
+            {initialProduct ? 'Guardar Cambios' : 'Agregar Producto'}
+          </Button>
         </Box>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{ mt: 2 }}
-        >
-          {initialProduct ? 'Guardar Cambios' : 'Agregar Producto'}
-        </Button>
       </Paper>
     </Container>
   );
