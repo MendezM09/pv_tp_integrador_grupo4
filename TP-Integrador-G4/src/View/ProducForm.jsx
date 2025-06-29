@@ -160,8 +160,8 @@ function ProductForm({ initialProduct = null }) {
                     src={imagen}
                     alt="Previsualización"
                     sx={{
-                      width: '100%',
-                      maxHeight: 300,
+                      width: '80%',
+                      maxHeight: 150,
                       objectFit: 'contain',
                       backgroundColor: '#f9f9f9',
                       borderRadius: 2,
