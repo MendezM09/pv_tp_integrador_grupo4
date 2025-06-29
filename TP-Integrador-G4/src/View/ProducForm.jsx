@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
 import { Box, TextField, Button, Typography, Paper, Grid, Container, Tooltip, IconButton } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { createProduct, updateProduct } from '../store/productsSlice';
-
+import { validarProducto } from "../services/ValidacionDatos";
+import AlertError from '../Components/Alerts';
 function ProductForm({ initialProduct = null }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -16,6 +16,8 @@ function ProductForm({ initialProduct = null }) {
   const [descripcion, setDescripcion] = useState('');
   const [categoria, setCategoria] = useState('');
   const [imagen, setImage] = useState('');
+  const [errorValidacion, setErrorValidacion] = useState('');
+  const [alertaExito, setAlertaExito] = useState(null);
 
   useEffect(() => {
     if (initialProduct) {
@@ -38,26 +40,18 @@ function ProductForm({ initialProduct = null }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !titulo.trim() ||
-      !precio ||
-      isNaN(precio) ||
-      Number(precio) <= 0 ||
-      !descripcion.trim() ||
-      !categoria.trim() ||
-      !imagen.trim()
-    ) {
-      if (!precio || isNaN(precio)) {
-        alert('El precio debe ser un número válido.');
-        return;
-      }
+    const error = validarProducto({
+      title: titulo,
+      price: precio,
+      description: descripcion,
+      image: imagen,
+      products,
+    });
 
-      if (Number(precio) <= 0) {
-        alert('El precio debe ser mayor a 0.');
-        return;
-      }
+    if (error) {
+      setErrorValidacion(error);
+      return;
     }
-
     // Generación del nuevo ID si es producto nuevo
     let newId = null;
     if (!initialProduct) {
@@ -94,8 +88,11 @@ function ProductForm({ initialProduct = null }) {
       }
 
       if (actionType.match(resultAction)) {
-        alert(successMessage);
-        navigate('/');
+        setAlertaExito(successMessage);
+        setTimeout(() => {
+          setAlertaExito(null);
+          navigate('/');
+        }, 2000); // Espera 2 segundos antes de redirigir
       } else {
         const errorMessage = resultAction.payload || resultAction.error?.message || 'Error desconocido';
         alert(`Error al guardar/actualizar el producto: ${errorMessage}`);
@@ -103,7 +100,7 @@ function ProductForm({ initialProduct = null }) {
     } catch (error) {
       alert('Ocurrió un error inesperado al guardar/actualizar el producto.');
     }
-
+    setErrorValidacion('');
     if (!initialProduct) {
       setTitulo('');
       setPrecio('');
@@ -116,6 +113,8 @@ function ProductForm({ initialProduct = null }) {
   return (
     <Container maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
       <Paper elevation={3} sx={{ p: 4, position: 'relative' }}>
+        {errorValidacion && (<AlertError severity="error" mensaje={errorValidacion} onClose={() => setErrorValidacion('')} ></AlertError>)}
+        {alertaExito && (<AlertError severity="success" mensaje={alertaExito} onClose={() => setAlertaExito(null)}/>)}
         <Typography variant="h5" component="h2" gutterBottom align="center">
           {initialProduct ? 'Editar Producto' : 'Agregar Nuevo Producto'}
         </Typography>
