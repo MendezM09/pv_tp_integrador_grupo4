@@ -111,8 +111,14 @@ function ProductForm({ initialProduct = null }) {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, position: 'relative' }}>
+    <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
+      <Paper elevation={3} sx={{
+        p: 4, position: 'relative',
+        border: '2px solid #FBC02D',     // borde mostaza
+        borderRadius: 3,                 // bordes redondeados
+        padding: 4,                      // espacio interno
+        boxShadow: 4,
+      }}>
         {errorValidacion && (<AlertError severity="error" mensaje={errorValidacion} onClose={() => setErrorValidacion('')} ></AlertError>)}
         {alertaExito && (<AlertError severity="success" mensaje={alertaExito} onClose={() => setAlertaExito(null)} />)}
         <Typography variant="h5" component="h2" gutterBottom align="center">
@@ -127,77 +133,105 @@ function ProductForm({ initialProduct = null }) {
         </Box>
         <Box component="form" onSubmit={handleSubmit} sx={{
           mt: 2,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 4,
-          maxWidth: 900,
+          width: '100%',
           margin: 'auto',
           padding: 4,
           border: '1px solid #ccc',
           borderRadius: 2,
           boxShadow: 3,
         }}>
-          <Grid container spacing={2} justifyContent="center">
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Título"
-                type="text"
-                value={titulo}
-                onChange={(e) => setTitulo(e.target.value)}
-                required
-                margin="normal"
-                multiline
-              />
+          <Grid container spacing={4} alignItems="flex-start">
+            {/* Columna izquierda: URL + Imagen */}
+            <Grid item xs={12} md={5}>
+              <Box sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 2,
+                border: '1px solid #ccc',
+                borderRadius: 2,
+                padding: 2,
+                width: '100%',
+              }}>
+                {/* Previsualización */}
+                {imagen ? (
+                  <Box
+                    component="img"
+                    src={imagen}
+                    alt="Previsualización"
+                    sx={{
+                      width: '100%',
+                      maxHeight: 300,
+                      objectFit: 'contain',
+                      backgroundColor: '#f9f9f9',
+                      borderRadius: 2,
+                    }}
+                  />
+                ) : (
+                  <Box
+                    sx={{
+                      width: '100%',
+                      height: 300,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: '#f9f9f9',
+                      borderRadius: 2,
+                      color: '#888',
+                      fontStyle: 'italic',
+                    }}
+                  >
+                    Sin imagen
+                  </Box>
+                )}
+
+                {/* Campo URL de Imagen */}
+                <TextField
+                  fullWidth
+                  label="Ingresar URL de imagen"
+                  value={imagen}
+                  onChange={(e) => setImage(e.target.value)}
+                  size="small"
+                />
+              </Box>
             </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Precio"
-                type="number"
-                value={precio}
-                onChange={(e) => setPrecio(e.target.value)}
-                required
-                inputProps={{ step: "0.01" }}
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Descripción"
-                multiline
-                minRows={3}
-                maxRows={10}
-                value={descripcion}
-                onChange={(e) => setDescripcion(e.target.value)}
-                required
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="Categoría"
-                type="text"
-                value={categoria}
-                onChange={(e) => setCategoria(e.target.value)}
-                required
-                margin="normal"
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                fullWidth
-                label="URL de la Imagen"
-                type="text"
-                value={imagen}
-                onChange={(e) => setImage(e.target.value)}
-                required
-                margin="normal"
-                multiline
-              />
+            {/* Columna derecha: campos del formulario */}
+            <Grid item xs={12} md={8} >
+              <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
+                <TextField
+                  label="Título"
+                  value={titulo}
+                  onChange={(e) => setTitulo(e.target.value)}
+                  required
+                  fullWidth
+                  multiline
+                  sx={{ maxWidth: '100%', width: '400px' }} 
+                />
+                <TextField
+                  label="Precio"
+                  type="number"
+                  value={precio}
+                  onChange={(e) => setPrecio(e.target.value)}
+                  required
+                  fullWidth
+                />
+                <TextField
+                  label="Descripción"
+                  value={descripcion}
+                  onChange={(e) => setDescripcion(e.target.value)}
+                  required
+                  multiline
+                  minRows={4}
+                  fullWidth
+                />
+                <TextField
+                  label="Categoría"
+                  value={categoria}
+                  onChange={(e) => setCategoria(e.target.value)}
+                  required
+                  fullWidth
+                />
+              </Box>
             </Grid>
           </Grid>
 
@@ -207,15 +241,15 @@ function ProductForm({ initialProduct = null }) {
             fullWidth
             sx={{
               mt: 2,
-              py: 1.2, 
+              py: 1.2,
               fontSize: '1rem',
               fontWeight: 'bold',
-              color: 'black', 
-              backgroundColor: '#FBC02D', 
+              color: 'black',
+              backgroundColor: '#FBC02D',
               borderRadius: '50px',
-              textTransform: 'none', 
+              textTransform: 'none',
               '&:hover': {
-                backgroundColor: '#F9A825', 
+                backgroundColor: '#F9A825',
               },
             }}
           >

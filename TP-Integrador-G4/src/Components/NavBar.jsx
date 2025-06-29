@@ -18,7 +18,7 @@ function NavBar() {
             component="img"
             src={logo}
             alt="Logo Tienda"
-            sx={{ height: 60, cursor: 'pointer', mr: 2 }}
+            sx={{ height: 80, cursor: 'pointer', mr: 2 }}
           />
         </Link>
         <Box sx={{ flexGrow: 1 }} />

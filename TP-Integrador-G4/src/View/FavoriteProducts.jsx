@@ -87,19 +87,19 @@ function FavoriteProducts() {
               alt={product.title}
               sx={{ objectFit: 'cover' }}
             />
-            <CardContent sx={{ flexGrow: 1 }}>
+            <CardContent sx={{ flexGrow: 1  , px: 1, py: 1}}>
               <Typography gutterBottom variant="h6" component="div" noWrap>
                 {product.title}
               </Typography>
               <Typography variant="body1" paragraph>
                 <strong>Categoría:</strong> {product.category}
               </Typography>
-              <Typography variant="h5" color="black" sx={{ marginTop: 2, fontWeight: 'bold' }}>
+              <Typography variant="h5" color="black" sx={{ fontWeight: 'bold', mt: 1  }}>
                 ${product.price}
               </Typography>
             </CardContent>
 
-            <CardActions sx={{ justifyContent: 'space-between', padding: 2 }}>
+            <CardActions sx={{ justifyContent: 'space-between', px: 1, py: 0.5 }}>
               <Checkbox
                 icon={<FavoriteBorder />}
                 checkedIcon={<Favorite sx={{ color: 'red' }} />}

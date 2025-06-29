@@ -55,7 +55,12 @@ function ProductDetail() {
 
   return (
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4, position: 'relative' }}>
+      <Paper elevation={3} sx={{
+        p: 4, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4, position: 'relative', border: '2px solid #FBC02D',     // borde mostaza
+        borderRadius: 3,                 // bordes redondeados
+        padding: 4,                      // espacio interno
+        boxShadow: 4,
+      }}>
         <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
           <Tooltip title={"Salir"}>
             <Checkbox
