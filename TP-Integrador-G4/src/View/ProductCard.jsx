@@ -40,16 +40,17 @@ function ProductCard() {
         flexWrap: 'wrap',
         gap: 3,
         justifyContent: 'center',
-        py: 8,
-        px: 4,
+        alignItems: 'center',
+        py: 16,
+        px: 16,
       }}
     >
       {entities.map((product) => (
         <Card
           key={product.id}
           sx={{
-            width: 220,
-            height: 420,
+            width: 180,
+            height: 350,
             display: 'flex',
             flexDirection: 'column',
             boxShadow: 3,
@@ -61,24 +62,24 @@ function ProductCard() {
         >
           <CardMedia
             component="img"
-            height="200"
+            height="160"
             image={product.image}
             alt={product.title}
             sx={{ objectFit: 'cover' }}
           />
-          <CardContent sx={{ flexGrow: 1 }}>
+          <CardContent sx={{ flexGrow: 1 , px: 1, py: 1 }}>
             <Typography gutterBottom variant="h6" component="div" noWrap>
               {product.title}
             </Typography>
             <Typography variant="body1" paragraph>
               <strong>Category:</strong> {product.category}
             </Typography>
-            <Typography variant="h5" color="primary" sx={{ marginTop: 2, fontWeight: 'bold' }}>
+            <Typography variant="h5" color="black" sx={{fontWeight: 'bold', mt: 1  }}>
               ${product.price}
             </Typography>
           </CardContent>
 
-          <CardActions sx={{ justifyContent: 'space-between', padding: 2 }}>
+          <CardActions sx={{ justifyContent: 'space-between', px: 1, py: 0.5 }}>
             <Tooltip
               title={favorites.includes(product.id) ? 'Quitar de favoritos' : 'Agregar a favoritos'}
               arrow>

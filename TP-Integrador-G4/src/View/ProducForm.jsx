@@ -114,7 +114,7 @@ function ProductForm({ initialProduct = null }) {
     <Container maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
       <Paper elevation={3} sx={{ p: 4, position: 'relative' }}>
         {errorValidacion && (<AlertError severity="error" mensaje={errorValidacion} onClose={() => setErrorValidacion('')} ></AlertError>)}
-        {alertaExito && (<AlertError severity="success" mensaje={alertaExito} onClose={() => setAlertaExito(null)}/>)}
+        {alertaExito && (<AlertError severity="success" mensaje={alertaExito} onClose={() => setAlertaExito(null)} />)}
         <Typography variant="h5" component="h2" gutterBottom align="center">
           {initialProduct ? 'Editar Producto' : 'Agregar Nuevo Producto'}
         </Typography>
@@ -148,6 +148,7 @@ function ProductForm({ initialProduct = null }) {
                 onChange={(e) => setTitulo(e.target.value)}
                 required
                 margin="normal"
+                multiline
               />
             </Grid>
             <Grid item xs={12}>
@@ -167,7 +168,8 @@ function ProductForm({ initialProduct = null }) {
                 fullWidth
                 label="Descripción"
                 multiline
-                rows={4}
+                minRows={3}
+                maxRows={10}
                 value={descripcion}
                 onChange={(e) => setDescripcion(e.target.value)}
                 required
@@ -194,6 +196,7 @@ function ProductForm({ initialProduct = null }) {
                 onChange={(e) => setImage(e.target.value)}
                 required
                 margin="normal"
+                multiline
               />
             </Grid>
           </Grid>
@@ -201,9 +204,20 @@ function ProductForm({ initialProduct = null }) {
           <Button
             type="submit"
             variant="contained"
-            color="primary"
             fullWidth
-            sx={{ mt: 2 }}
+            sx={{
+              mt: 2,
+              py: 1.2, 
+              fontSize: '1rem',
+              fontWeight: 'bold',
+              color: 'black', 
+              backgroundColor: '#FBC02D', 
+              borderRadius: '50px',
+              textTransform: 'none', 
+              '&:hover': {
+                backgroundColor: '#F9A825', 
+              },
+            }}
           >
             {initialProduct ? 'Guardar Cambios' : 'Agregar Producto'}
           </Button>
