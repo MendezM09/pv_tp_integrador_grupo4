@@ -1,4 +1,3 @@
-// FavoriteProducts.jsx
 import React from 'react';
 import { useSelector } from 'react-redux'; // Necesitamos useSelector para acceder al estado
 import { useNavigate } from 'react-router-dom'; // Para la navegación a los detalles del producto
@@ -13,7 +12,8 @@ import Box from '@mui/material/Box';
 import Checkbox from '@mui/material/Checkbox';
 import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
-
+import Tooltip from '@mui/material/Tooltip';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 // Importa las acciones de favoritos (necesarias para el checkbox)
 import { addFavorite, removeFavorite } from '../store/favoritesSlice'; // Ajusta la ruta si es necesario
 
@@ -22,7 +22,7 @@ function FavoriteProducts() {
   const allProducts = useSelector((state) => state.products.entities);
   // 2. Obtener los IDs de los productos favoritos
   const favoriteIds = useSelector((state) => state.favorites.items);
-  
+
   const dispatch = useDispatch(); // Para despachar acciones de favoritos
   const navigate = useNavigate(); // Para navegar a los detalles
 
@@ -50,8 +50,9 @@ function FavoriteProducts() {
         flexWrap: 'wrap',
         gap: 3,
         justifyContent: 'center',
-        padding: 3,
-        mt: 4, // Un poco de margen superior
+        alignItems: 'center',
+        py: 16,
+        px: 16,
       }}
     >
       <Typography variant="h4" component="h2" gutterBottom sx={{ width: '100%', textAlign: 'center' }}>
@@ -67,8 +68,8 @@ function FavoriteProducts() {
           <Card
             key={product.id}
             sx={{
-              maxWidth: 345,
-              minWidth: 280,
+              width: 180,
+              height: 350,
               display: 'flex',
               flexDirection: 'column',
               boxShadow: 3,
@@ -80,30 +81,24 @@ function FavoriteProducts() {
           >
             <CardMedia
               component="img"
-              height="300"
+              height="160"
               image={product.image}
               alt={product.title}
               sx={{ objectFit: 'cover' }}
             />
-            <CardContent sx={{ flexGrow: 1 }}>
-              <Typography gutterBottom variant="h7" component="div" noWrap>
-                ID: {product.id}
-              </Typography>
+            <CardContent sx={{ flexGrow: 1  , px: 1, py: 1}}>
               <Typography gutterBottom variant="h6" component="div" noWrap>
                 {product.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary" sx={{ minHeight: '60px', overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical' }}>
-                {product.description}
               </Typography>
               <Typography variant="body1" paragraph>
                 <strong>Categoría:</strong> {product.category}
               </Typography>
-              <Typography variant="h5" color="primary" sx={{ marginTop: 2, fontWeight: 'bold' }}>
+              <Typography variant="h5" color="black" sx={{ fontWeight: 'bold', mt: 1  }}>
                 ${product.price}
               </Typography>
             </CardContent>
 
-            <CardActions sx={{ justifyContent: 'space-between', padding: 2 }}>
+            <CardActions sx={{ justifyContent: 'space-between', px: 1, py: 0.5 }}>
               <Checkbox
                 icon={<FavoriteBorder />}
                 checkedIcon={<Favorite sx={{ color: 'red' }} />}
@@ -111,13 +106,12 @@ function FavoriteProducts() {
                 onChange={() => handleToggleFavorite(product.id)}
                 aria-label="Quitar de favoritos"
               />
-              <Button
-                size="small"
-                variant="contained"
-                onClick={() => handleViewDetails(product.id)}
-              >
-                Ver Detalles
-              </Button>
+              <Tooltip title="Ver Detalles">
+                <Checkbox
+                  icon={<AssignmentIcon />}
+                  onChange={() => handleViewDetails(product.id)}
+                ></Checkbox>
+              </Tooltip>
             </CardActions>
           </Card>
         ))
