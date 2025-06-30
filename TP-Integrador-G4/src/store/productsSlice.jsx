@@ -104,6 +104,13 @@ const productsSlice = createSlice({
             })
             .addCase(createProduct.fulfilled, (state, action) => {
                 state.status = 'succeeded';
+                //inyección manual de rating si no viene en la respuesta
+                if (!action.payload.rating) {
+                    action.payload.rating = {
+                        rate: action.meta.arg.rating?.rate || 0,
+                        count: action.meta.arg.rating?.count || 0,
+                    };
+                }
                 state.entities.push(action.payload);
             })
             .addCase(createProduct.rejected, (state, action) => {

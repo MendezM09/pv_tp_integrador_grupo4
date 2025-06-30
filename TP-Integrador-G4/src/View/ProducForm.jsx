@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Box, TextField, Button, Typography, Paper, Grid, Container, Tooltip, IconButton } from '@mui/material';
+import { Box, TextField, Button, Typography, Paper, Grid, Container, Tooltip, IconButton, MenuItem } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { createProduct, updateProduct } from '../store/productsSlice';
 import { validarProducto } from "../services/ValidacionDatos";
@@ -16,9 +16,11 @@ function ProductForm({ initialProduct = null }) {
   const [descripcion, setDescripcion] = useState('');
   const [categoria, setCategoria] = useState('');
   const [imagen, setImage] = useState('');
+  const [rate, setRate] = useState("");
+  const [count, setCount] = useState("");
   const [errorValidacion, setErrorValidacion] = useState('');
   const [alertaExito, setAlertaExito] = useState(null);
-
+  const categorias = ["men's clothing", "jewelery", "electronics", "women's clothing", "others"];
   useEffect(() => {
     if (initialProduct) {
       setId(initialProduct.id?.toString() || '');
@@ -27,6 +29,8 @@ function ProductForm({ initialProduct = null }) {
       setDescripcion(initialProduct.description || '');
       setCategoria(initialProduct.category || '');
       setImage(initialProduct.image || '');
+      setRate(initialProduct.rating?.rate?.toString() || '');
+      setCount(initialProduct.rating?.count?.toString() || '');
     } else {
       setId('');
       setTitulo('');
@@ -34,6 +38,8 @@ function ProductForm({ initialProduct = null }) {
       setDescripcion('');
       setCategoria('');
       setImage('');
+      setRate('');
+      setCount('');
     }
   }, [initialProduct]);
 
@@ -45,6 +51,8 @@ function ProductForm({ initialProduct = null }) {
       price: precio,
       description: descripcion,
       image: imagen,
+      rate: rate,
+      count: count,
       products,
     });
 
@@ -68,8 +76,8 @@ function ProductForm({ initialProduct = null }) {
       category: categoria,
       image: imagen,
       rating: {
-        rate: 0,
-        count: 0,
+        rate: parseFloat(rate) || 0,
+        count: parseInt(count) || 0,
       },
     };
     try {
@@ -107,6 +115,8 @@ function ProductForm({ initialProduct = null }) {
       setDescripcion('');
       setCategoria('');
       setImage('');
+      setRate('');
+      setCount('');
     }
   };
 
@@ -133,128 +143,143 @@ function ProductForm({ initialProduct = null }) {
         </Box>
         <Box component="form" onSubmit={handleSubmit} sx={{
           mt: 2,
-          width: '100%',
-          margin: 'auto',
-          padding: 4,
+          display: 'flex',
+          flexDirection: { xs: 'column', md: 'row' },
+          gap: 4,
           border: '1px solid #ccc',
           borderRadius: 2,
           boxShadow: 3,
+          p: 2,
+          width: '100%',
         }}>
-          <Grid container spacing={4} alignItems="flex-start">
-            {/* Columna izquierda: URL + Imagen */}
-            <Grid item xs={12} md={5}>
-              <Box sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: 2,
-                border: '1px solid #ccc',
-                borderRadius: 2,
-                padding: 2,
-                width: '100%',
-              }}>
-                {/* Previsualización */}
-                {imagen ? (
-                  <Box
-                    component="img"
-                    src={imagen}
-                    alt="Previsualización"
-                    sx={{
-                      width: '80%',
-                      maxHeight: 150,
-                      objectFit: 'contain',
-                      backgroundColor: '#f9f9f9',
-                      borderRadius: 2,
-                    }}
-                  />
-                ) : (
-                  <Box
-                    sx={{
-                      width: '100%',
-                      height: 300,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: '#f9f9f9',
-                      borderRadius: 2,
-                      color: '#888',
-                      fontStyle: 'italic',
-                    }}
-                  >
-                    Sin imagen
-                  </Box>
-                )}
 
-                {/* Campo URL de Imagen */}
-                <TextField
-                  fullWidth
-                  label="Ingresar URL de imagen"
-                  value={imagen}
-                  onChange={(e) => setImage(e.target.value)}
-                  size="small"
+          {/* COLUMNA IZQUIERDA */}
+          <Box sx={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            gap: 2,
+          }}>
+            <Box sx={{
+              width: '100%',
+              height: 300,
+              border: '1px solid #ccc',
+              borderRadius: 2,
+              backgroundColor: '#f9f9f9',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              overflow: 'hidden',
+            }}>
+              {imagen ? (
+                <Box
+                  component="img"
+                  src={imagen}
+                  alt="Previsualización"
+                  sx={{
+                    maxWidth: '100%',
+                    maxHeight: '100%',
+                    objectFit: 'contain',
+                  }}
                 />
-              </Box>
-            </Grid>
-            {/* Columna derecha: campos del formulario */}
-            <Grid item xs={12} md={8} >
-              <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 2 }}>
-                <TextField
-                  label="Título"
-                  value={titulo}
-                  onChange={(e) => setTitulo(e.target.value)}
-                  required
-                  fullWidth
-                  multiline
-                  sx={{ maxWidth: '100%', width: '400px' }} 
-                />
-                <TextField
-                  label="Precio"
-                  type="number"
-                  value={precio}
-                  onChange={(e) => setPrecio(e.target.value)}
-                  required
-                  fullWidth
-                />
-                <TextField
-                  label="Descripción"
-                  value={descripcion}
-                  onChange={(e) => setDescripcion(e.target.value)}
-                  required
-                  multiline
-                  minRows={4}
-                  fullWidth
-                />
-                <TextField
-                  label="Categoría"
-                  value={categoria}
-                  onChange={(e) => setCategoria(e.target.value)}
-                  required
-                  fullWidth
-                />
-              </Box>
-            </Grid>
-          </Grid>
+              ) : (
+                <Typography variant="body2" color="text.secondary" fontStyle="italic">
+                  Sin imagen
+                </Typography>
+              )}
+            </Box>
 
-          <Button
-            type="submit"
-            variant="contained"
-            fullWidth
-            sx={{
-              mt: 2,
-              py: 1.2,
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              color: 'black',
-              backgroundColor: '#FBC02D',
-              borderRadius: '50px',
-              textTransform: 'none',
-              '&:hover': {
-                backgroundColor: '#F9A825',
-              },
-            }}
-          >
-            {initialProduct ? 'Guardar Cambios' : 'Agregar Producto'}
-          </Button>
+            <TextField
+              fullWidth
+              label="Ingresar URL de imagen"
+              value={imagen}
+              onChange={(e) => setImage(e.target.value)}
+              size="small"
+            />
+          </Box>
+
+          {/* COLUMNA DERECHA */}
+          <Box sx={{ flex: 2, display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <TextField
+              label="Título"
+              value={titulo}
+              onChange={(e) => setTitulo(e.target.value)}
+              required
+              fullWidth
+            />
+            <TextField
+              label="Descripción"
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+              required
+              multiline
+              minRows={3}
+              fullWidth
+            />
+            <TextField
+              select
+              label="Categoría"
+              value={categoria}
+              onChange={(e) => setCategoria(e.target.value)}
+              required
+              fullWidth
+            >
+              {categorias.map((cat) => (
+                <MenuItem key={cat} value={cat}>
+                  {cat}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            <Box sx={{ display: 'flex', gap: 2 }}>
+              <TextField
+                label="Valoración"
+                type="number"
+                value={rate}
+                onChange={(e) => setRate(e.target.value)}
+                fullWidth
+              />
+              <TextField
+                label="Cantidad de Opiniones"
+                type="number"
+                value={count}
+                onChange={(e) => setCount(e.target.value)}
+                fullWidth
+              />
+            </Box>
+
+            <TextField
+              label="Precio"
+              type="number"
+              value={precio}
+              onChange={(e) => setPrecio(e.target.value)}
+              required
+              fullWidth
+            />
+
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                mt: 2,
+                py: 1.2,
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                color: 'black',
+                backgroundColor: '#FBC02D',
+                borderRadius: '50px',
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: '#F9A825',
+                },
+              }}
+            >
+              {initialProduct ? 'Guardar Cambios' : 'Agregar Producto'}
+            </Button>
+          </Box>
+
         </Box>
       </Paper>
     </Container>

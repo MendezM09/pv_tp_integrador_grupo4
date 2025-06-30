@@ -1,4 +1,4 @@
-export function validarProducto({ title, price, description, image, products }) {
+export function validarProducto({ title, price, description, image, products, rate, count }) {
   if (!title || !title.trim()) {
     return "El título es obligatorio.";
   }
@@ -14,5 +14,15 @@ export function validarProducto({ title, price, description, image, products }) 
   if (!image || !image.trim()) {
     return "La imagen es obligatoria.";
   }
-  return null;
+  if (Number(rate) <= 0) {
+    return "La valoracion debe ser mayor a 0.";
+  }
+  if (Number(rate) <= 0 || Number(rate) > 5) {
+    return "La valoración debe ser mayor a 0 y menor o igual a 5.";
+  }
+
+  if (Number(count) <= 0) {
+    return "La cantidad de opiniones debe ser mayor a 0.";
+  }
+return null;
 }
