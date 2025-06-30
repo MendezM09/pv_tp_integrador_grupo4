@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Box, Typography, CircularProgress, Container, Paper, Tooltip, Button } from '@mui/material'; 
+import { Box, Typography, CircularProgress, Container, Paper, Tooltip, Button } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import EditIcon from '@mui/icons-material/Edit'; 
+import EditIcon from '@mui/icons-material/Edit';
 import Checkbox from '@mui/material/Checkbox';
 
 function ProductDetail() {
@@ -55,7 +55,12 @@ function ProductDetail() {
 
   return (
     <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4 ,position: 'relative'}}>
+      <Paper elevation={3} sx={{
+        p: 4, display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 4, position: 'relative',
+        border: '2px solid #FBC02D',  
+        borderRadius: 3,
+        boxShadow: 4,
+      }}>
         <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
           <Tooltip title={"Salir"}>
             <Checkbox
@@ -91,14 +96,26 @@ function ProductDetail() {
             <strong>Cantidad de Opiniones:</strong> {product.rating?.count || 0}
             <strong> Valoración:</strong> {product.rating?.rate || 0}
           </Typography>
-          <Typography variant="h5" color="primary" sx={{ mt: 3, fontWeight: 'bold' }}>
+          <Typography variant="h5" color="black" sx={{ mt: 3, fontWeight: 'bold' }}>
             ${product.price}
           </Typography>
           <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
-            <Button
+             <Button
               variant="contained"
-              color="primary"
-              startIcon={<EditIcon />} 
+              sx={{
+                mt: 2,
+                py: 1.2,
+                fontSize: '1rem',
+                fontWeight: 'bold',
+                color: 'black',
+                backgroundColor: '#FBC02D',
+                borderRadius: '50px',
+                textTransform: 'none',
+                '&:hover': {
+                  backgroundColor: '#F9A825',
+                },
+              }}
+              startIcon={<EditIcon />}
               onClick={handleEditClick}>
               Editar Producto
             </Button>

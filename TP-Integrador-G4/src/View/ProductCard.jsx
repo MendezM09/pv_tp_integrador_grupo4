@@ -76,7 +76,7 @@ function ProductCard() {
         flexDirection: 'column',
         width: '100%',
         py: 4,
-        px: 4,
+        px: 16,
       }}
     >
       
@@ -171,7 +171,7 @@ function ProductCard() {
                     </Typography>
                 </Tooltip>
                 <Typography variant="body1" paragraph>
-                  **Categoría:** {product.category}
+                  Categoría: {product.category}
                 </Typography>
                 <Typography variant="h5" color="black" sx={{fontWeight: 'bold', mt: 1 }}>
                   ${product.price}
