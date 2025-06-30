@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 
 export const fetchProducts = createAsyncThunk(
-    "products/fetchProducts", 
+    "products/fetchProducts",
     async (_, { rejectWithValue }) => {
         try {
             const response = await fetch("https://fakestoreapi.com/products");
@@ -14,7 +14,7 @@ export const fetchProducts = createAsyncThunk(
             const products = await response.json();
             return products;
         } catch (error) {
-        
+
             return rejectWithValue(error.message || "Error de conexión al cargar productos.");
         }
     }
@@ -38,30 +38,33 @@ export const createProduct = createAsyncThunk(
             }
 
             const addedProduct = await response.json();
-            return { ...newProductData, ...addedProduct, id: addedProduct.id || newProductData.id };
+            return {
+                ...addedProduct,
+                id: newProductData.id,
+            };
         } catch (error) {
             return rejectWithValue(error.message || "Error de conexión con la API.");
         }
     }
 );
 export const updateProduct = createAsyncThunk(
-    "products/updateProduct", 
+    "products/updateProduct",
     async (productData, { rejectWithValue }) => {
         try {
             const response = await fetch(`https://fakestoreapi.com/products/${productData.id}`, {
-                method: "PUT", 
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(productData), 
+                body: JSON.stringify(productData),
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
                 return rejectWithValue(errorData || "Error al actualizar el producto en la API.");
             }
-            await response.json(); 
-            return productData; 
+            await response.json();
+            return productData;
         } catch (error) {
             return rejectWithValue(error.message || "Error de conexión con la API.");
         }
@@ -93,7 +96,7 @@ const productsSlice = createSlice({
             })
             .addCase(fetchProducts.rejected, (state, action) => {
                 state.status = 'failed';
-                state.error = action.payload || action.error.message; 
+                state.error = action.payload || action.error.message;
             })
             .addCase(createProduct.pending, (state) => {
                 state.status = 'loading';
@@ -101,6 +104,12 @@ const productsSlice = createSlice({
             })
             .addCase(createProduct.fulfilled, (state, action) => {
                 state.status = 'succeeded';
+                if (!action.payload.rating) {
+                    action.payload.rating = {
+                        rate: action.meta.arg.rating?.rate || 0,
+                        count: action.meta.arg.rating?.count || 0,
+                    };
+                }
                 state.entities.push(action.payload);
             })
             .addCase(createProduct.rejected, (state, action) => {
@@ -108,12 +117,12 @@ const productsSlice = createSlice({
                 state.error = action.payload || action.error.message;
             })
             .addCase(updateProduct.pending, (state) => {
-                state.status = 'loading'; 
+                state.status = 'loading';
                 state.error = null;
             })
             .addCase(updateProduct.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-      
+
                 const index = state.entities.findIndex(product => product.id === action.payload.id);
                 if (index !== -1) {
                     state.entities[index] = action.payload;
