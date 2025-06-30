@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { Box, TextField, Button, Typography, Paper, Grid, Container, Tooltip, IconButton,MenuItem } from '@mui/material';
+import { Box, TextField, Button, Typography, Paper, Grid, Container, Tooltip, IconButton, MenuItem } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { createProduct, updateProduct } from '../store/productsSlice';
 import { validarProducto } from "../services/ValidacionDatos";
@@ -121,8 +121,14 @@ function ProductForm({ initialProduct = null }) {
   };
 
   return (
-    <Container maxWidth="sm" sx={{ mt: 4, mb: 4 }}>
-      <Paper elevation={3} sx={{ p: 4, position: 'relative' }}>
+    <Container maxWidth="md" sx={{ mt: 4, mb: 4 }}>
+      <Paper elevation={3} sx={{
+        p: 4, position: 'relative',
+        border: '2px solid #FBC02D',
+        borderRadius: 3,
+        padding: 4,
+        boxShadow: 4,
+      }}>
         {errorValidacion && (<AlertError severity="error" mensaje={errorValidacion} onClose={() => setErrorValidacion('')} ></AlertError>)}
         {alertaExito && (<AlertError severity="success" mensaje={alertaExito} onClose={() => setAlertaExito(null)} />)}
         <Typography variant="h5" component="h2" gutterBottom align="center">
@@ -138,15 +144,13 @@ function ProductForm({ initialProduct = null }) {
         <Box component="form" onSubmit={handleSubmit} sx={{
           mt: 2,
           display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
+          flexDirection: { xs: 'column', md: 'row' },
           gap: 4,
-          maxWidth: 900,
-          margin: 'auto',
-          padding: 4,
           border: '1px solid #ccc',
           borderRadius: 2,
           boxShadow: 3,
+          p: 2,
+          width: '100%',
         }}>
           {/* COLUMNA IZQUIERDA */}
           <Box sx={{
