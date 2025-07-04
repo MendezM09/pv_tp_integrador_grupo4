@@ -136,7 +136,7 @@ function ProductForm({ initialProduct = null }) {
         </Typography>
         <Box sx={{ position: 'absolute', top: 16, right: 16 }}>
           <Tooltip title={"Salir"}>
-            <IconButton aria-label="salir" onClick={() => navigate('/')}>
+            <IconButton aria-label="salir" onClick={() => navigate('/home')}>
               <ArrowBackIcon />
             </IconButton>
           </Tooltip>

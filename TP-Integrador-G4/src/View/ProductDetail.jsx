@@ -33,7 +33,7 @@ function ProductDetail() {
     return (
       <Box sx={{ textAlign: 'center', mt: 4 }}>
         <Typography variant="h6">Producto no encontrado.</Typography>
-        <Button variant="contained" onClick={() => navigate('/')} sx={{ mt: 2 }}>
+        <Button variant="contained" onClick={() => navigate('/home')} sx={{ mt: 2 }}>
           Volver a la lista de productos
         </Button>
       </Box>
@@ -43,7 +43,7 @@ function ProductDetail() {
     return (
       <Box sx={{ textAlign: 'center', mt: 4 }}>
         <Typography variant="h6" color="error">Error al cargar el producto.</Typography>
-        <Button variant="contained" onClick={() => navigate('/')} sx={{ mt: 2 }}>
+        <Button variant="contained" onClick={() => navigate('/home')} sx={{ mt: 2 }}>
           Volver a la lista de productos
         </Button>
       </Box>
@@ -65,7 +65,7 @@ function ProductDetail() {
           <Tooltip title={"Salir"}>
             <Checkbox
               icon={<ArrowBackIcon />}
-              onClick={() => navigate('/')}
+              onClick={() => navigate('/home')}
               aria-label="Salir"
             />
           </Tooltip>
