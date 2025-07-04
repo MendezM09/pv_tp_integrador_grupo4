@@ -1,16 +1,20 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom'; 
-import { useSelector, useDispatch } from 'react-redux'; 
+import { BrowserRouter, Routes, Route, useParams } from 'react-router-dom';
+import { useSelector} from 'react-redux';
 import FavoriteProducts from './View/FavoriteProducts';
 import ProductDetail from './View/ProductDetail';
-import Navbar from './Components/NavBar';
-import ProductCard from './View/ProductCard';
-import Footer from './Components/Footer'; 
-import ProductForm from './View/ProducForm'; 
-import { fetchProducts, createProduct } from './store/productsSlice'; 
+import ProductForm from './View/ProducForm';
+import PublicRoute from './hooks/PublicRoute';
+import PrivateRoute from './hooks/PrivateRoute';
+import RegisterForm from './pages/RegisterForm';
+import Login from './pages/LoginForm';
+import Home from "./Components/Home";
+import ProductCard from "./View/ProductCard";
+
+
+
 function EditProductFormWrapper() {
-  const { id } = useParams(); 
-  const products = useSelector(state => state.products.entities); 
+  const { id } = useParams();
+  const products = useSelector(state => state.products.entities);
 
   const productToEdit = products.find(p => p.id === parseInt(id));
 
@@ -27,32 +31,23 @@ function EditProductFormWrapper() {
   return <ProductForm initialProduct={productToEdit} />;
 }
 function App() {
-    const dispatch = useDispatch();
-
-    const productsStatus = useSelector(state => state.products.status);
-    const productsError = useSelector(state => state.products.error);
-
-    useEffect(() => {
-        if (productsStatus === 'idle') {
-            dispatch(fetchProducts());
-        }
-    }, [productsStatus, dispatch]);
-
-    return (
-        <Router>
-            <Navbar />
-            <div className="min-h-screen bg-gray-100 font-sans text-gray-900 antialiased">
-                <Routes>
-                    <Route path="/" element={<ProductCard />} />
-                    <Route path="/product/:id" element={<ProductDetail />} />
-                    <Route path="/favorites" element={<FavoriteProducts />} />
-                    <Route path="/agregarProducto" element={<ProductForm />}/>
-                    <Route path="/editar-producto/:id" element={<EditProductFormWrapper />} />
-                </Routes>
-            </div>
-            <Footer />
-        </Router>
-    );
+  return (
+    <BrowserRouter>
+      <div className="min-h-screen bg-gray-100 font-sans text-gray-900 antialiased">
+        <Routes>
+          <Route path="/" exact element={<PublicRoute component={Login}></PublicRoute>} />
+          <Route path="/registro" exact element={<PublicRoute component={RegisterForm}></PublicRoute>} />
+          <Route element={<PrivateRoute component={Home} />}>
+            <Route path="/home" element={<ProductCard />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route path="/favorites" element={<FavoriteProducts />} />
+            <Route path="/agregarProducto" element={<ProductForm />} />
+            <Route path="/editar-producto/:id" element={<EditProductFormWrapper />} />
+          </Route>
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
 }
 
 export default App;

@@ -79,22 +79,22 @@ function ProductCard() {
         px: 16,
       }}
     >
-      
+
       <Box sx={{
         width: '100%',
         display: 'flex',
-        justifyContent: 'flex-end', 
+        justifyContent: 'flex-end',
         mb: 4,
       }}>
         <Box sx={{
           display: 'flex',
           gap: 2,
           flexWrap: 'wrap',
-          maxWidth: '400px', 
-          justifyContent: 'flex-end', 
+          maxWidth: '400px',
+          justifyContent: 'flex-end',
         }}>
           {/* Filtro por Categoría */}
-          <FormControl sx={{ minWidth: 180, flexGrow: 0 }}> 
+          <FormControl sx={{ minWidth: 180, flexGrow: 0 }}>
             <InputLabel id="category-filter-label">Categoría</InputLabel>
             <Select
               labelId="category-filter-label"
@@ -112,7 +112,7 @@ function ProductCard() {
           </FormControl>
 
           {/* Ordenar  */}
-          <FormControl sx={{ minWidth: 180, flexGrow: 0 }}> 
+          <FormControl sx={{ minWidth: 180, flexGrow: 0 }}>
             <InputLabel id="sort-by-label">Ordenar por</InputLabel>
             <Select
               labelId="sort-by-label"
@@ -137,7 +137,7 @@ function ProductCard() {
           display: 'flex',
           flexWrap: 'wrap',
           gap: 3,
-          justifyContent: 'center', 
+          justifyContent: 'center',
           alignItems: 'center',
         }}
       >
@@ -162,18 +162,22 @@ function ProductCard() {
                 height="160"
                 image={product.image}
                 alt={product.title}
-                sx={{ objectFit: 'cover' }}
+                sx={{
+                  objectFit: 'contain',
+                  width: '100%',
+                  height: '160px',
+                }}
               />
-              <CardContent sx={{ flexGrow: 1 , px: 1, py: 1 }}>
+              <CardContent sx={{ flexGrow: 1, px: 1, py: 1 }}>
                 <Tooltip title={product.title}>
-                    <Typography gutterBottom variant="h6" component="div" noWrap>
-                        {product.title}
-                    </Typography>
+                  <Typography gutterBottom variant="h6" component="div" noWrap>
+                    {product.title}
+                  </Typography>
                 </Tooltip>
                 <Typography variant="body1" paragraph>
                   Categoría: {product.category}
                 </Typography>
-                <Typography variant="h5" color="black" sx={{fontWeight: 'bold', mt: 1 }}>
+                <Typography variant="h5" color="black" sx={{ fontWeight: 'bold', mt: 1 }}>
                   ${product.price}
                 </Typography>
               </CardContent>

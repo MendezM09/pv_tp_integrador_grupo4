@@ -84,7 +84,9 @@ function FavoriteProducts() {
               height="160"
               image={product.image}
               alt={product.title}
-              sx={{ objectFit: 'cover' }}
+              sx={{                   objectFit: 'contain', 
+                  width: '100%',
+                  height: '160px', }}
             />
             <CardContent sx={{ flexGrow: 1  , px: 1, py: 1}}>
               <Typography gutterBottom variant="h6" component="div" noWrap>
