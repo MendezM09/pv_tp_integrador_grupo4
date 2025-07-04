@@ -14,8 +14,7 @@ import FavoriteBorder from '@mui/icons-material/FavoriteBorder';
 import Favorite from '@mui/icons-material/Favorite';
 import Tooltip from '@mui/material/Tooltip';
 import AssignmentIcon from '@mui/icons-material/Assignment';
-// Importa las acciones de favoritos (necesarias para el checkbox)
-import { addFavorite, removeFavorite } from '../store/favoritesSlice'; // Ajusta la ruta si es necesario
+import { addFavorite, removeFavorite } from '../store/favoritesSlice';
 
 function FavoriteProducts() {
   // 1. Obtener la lista completa de productos

@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, Link } from "react-router-dom"; // No necesitamos useRoutes aquí
+import { useNavigate, Link } from "react-router-dom";
 import logo from '../img/logo.jpg';
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
-// Componentes de Material-UI
 import { Box, TextField, Button, Typography,  Card,  CardContent, InputAdornment,IconButton,} from '@mui/material';
 import AlertError from '../Components/Alerts';
 
@@ -13,21 +12,16 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [errorValidacion, setErrorValidacion] = useState('');
-    // Asumimos que `users.entities` es un array de objetos de usuario con `username` y `password`
     const users = useSelector((state) => state.users.entities);
     const navigate = useNavigate();
 
     const handleLogin = (e) => {
         e.preventDefault();
 
-        // Buscar el usuario en el estado de Redux
         const userFound = users.find((user) => user.email === email && user.password === password);
 
         if (userFound) {
-            // Guardar los datos completos del usuario (o al menos su ID/nombre) en localStorage
-            // ¡Importante! Asegúrate de guardar los datos relevantes del usuario, no solo el username.
-            // Por ejemplo, `localStorage.setItem('auth', JSON.stringify({ name: userFound.username, /* otros datos si los hay */ }));`
-            // Basándonos en tu auth.js, que parsea, lo ideal es guardar un objeto.
+          
             localStorage.setItem('auth', JSON.stringify({ name: userFound.username , email: userFound.email,}));
 
             console.log('Login Success');
@@ -86,13 +80,13 @@ const Login = () => {
                                 sx={{
                                     '& .MuiOutlinedInput-root': {
                                         '& fieldset': {
-                                            borderColor: '#FBC02D', // Color del borde por defecto
+                                            borderColor: '#FBC02D', 
                                         },
                                         '&:hover fieldset': {
-                                            borderColor: '#FBC02D', // Color del borde en hover
+                                            borderColor: '#FBC02D', 
                                         },
                                         '&.Mui-focused fieldset': {
-                                            borderColor: '#FBC02D', // Color del borde cuando está enfocado
+                                            borderColor: '#FBC02D', 
                                         },
                                     },
                                 }}
