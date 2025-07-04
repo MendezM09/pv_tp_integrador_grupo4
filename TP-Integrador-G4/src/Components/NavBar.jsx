@@ -54,7 +54,7 @@ function NavBar() {
       {showWelcomeAlert && (
         <AlertError
           severity="success"
-          mensaje={`Bienvenido @${userData?.email}`}
+          mensaje={`Bienvenido ${userData?.email}`}
           onClose={() => setShowWelcomeAlert(false)}
         />
       )}

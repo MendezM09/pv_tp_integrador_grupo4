@@ -41,6 +41,11 @@ const AlertError = ({ severity, mensaje, onClose }) => {
         zIndex: 999,
         width: '90%',
         maxWidth: '500px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        minHeight: '100vh',
+        px: 2,
       }}
     >
       <Alert
