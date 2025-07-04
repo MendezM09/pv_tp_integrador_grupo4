@@ -9,6 +9,7 @@ import RegisterForm from './pages/RegisterForm';
 import Login from './pages/LoginForm';
 import Home from "./Components/Home";
 import ProductCard from "./View/ProductCard";
+import NoMatch from './pages/404';
 
 
 
@@ -43,6 +44,7 @@ function App() {
             <Route path="/favorites" element={<FavoriteProducts />} />
             <Route path="/agregarProducto" element={<ProductForm />} />
             <Route path="/editar-producto/:id" element={<EditProductFormWrapper />} />
+            <Route path="*" element={<NoMatch></NoMatch>} />
           </Route>
         </Routes>
       </div>
