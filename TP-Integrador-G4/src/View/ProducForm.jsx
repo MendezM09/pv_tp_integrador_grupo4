@@ -234,7 +234,7 @@ function ProductForm({ initialProduct = null }) {
 
             <Box sx={{ display: 'flex', gap: 2 }}>
               <TextField
-                label="Valoración"
+                label="Valoración [0-5]"
                 type="number"
                 value={rate}
                 onChange={(e) => setRate(e.target.value)}
